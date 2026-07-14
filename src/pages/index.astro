@@ -1,4 +1,108 @@
 ---
+import { createClient } from '@sanity/client';
+
+const client = createClient({
+  projectId: 'drbqows2',
+  dataset: 'production',
+  useCdn: true,
+  apiVersion: '2024-01-01',
+});
+
+interface Belief {
+  textEn: string;
+  textNl: string;
+  highlightEn?: string;
+  highlightNl?: string;
+}
+interface TimelineRow {
+  year: string;
+  descEn: string;
+  descNl: string;
+}
+interface SkillGroup {
+  label: string;
+  items: string;
+}
+interface LandingPage {
+  heroHeadlineEn?: string;
+  heroHeadlineNl?: string;
+  heroSubEn?: string;
+  heroSubNl?: string;
+  manifestBodyEn?: string;
+  manifestBodyNl?: string;
+  manifestImage?: { asset: { url: string } };
+  beliefs?: Belief[];
+  aboutBodyEn?: string;
+  aboutBodyNl?: string;
+  timeline?: TimelineRow[];
+  skills?: SkillGroup[];
+  contactEmail?: string;
+}
+
+const data = await client.fetch<LandingPage>(`
+  *[_type == "landingPage" && _id == "landingPage"][0]{
+    heroHeadlineEn, heroHeadlineNl,
+    heroSubEn, heroSubNl,
+    manifestBodyEn, manifestBodyNl,
+    manifestImage { asset -> { url } },
+    beliefs[] { textEn, textNl, highlightEn, highlightNl },
+    aboutBodyEn, aboutBodyNl,
+    timeline[] { year, descEn, descNl },
+    skills[] { label, items },
+    contactEmail
+  }
+`).catch(() => null);
+
+const lp = data ?? {};
+
+// Fallbacks
+const heroHeadlineEn = lp.heroHeadlineEn ?? 'The hand behind\nthe machine.';
+const heroHeadlineNl = lp.heroHeadlineNl ?? 'De hand achter\nde machine.';
+const heroSubEn = lp.heroSubEn ?? "Twenty years of traditional craft as the foundation for AI that doesn't feel generic.";
+const heroSubNl = lp.heroSubNl ?? 'Twintig jaar traditioneel vakmanschap als fundament voor AI die niet generiek aanvoelt.';
+
+const manifestBodyEn = lp.manifestBodyEn ?? `Most AI output is generic because there's nothing underneath it. No reference, no hand, no twenty years of learning why something works.\n\nI work the other way around. Craft first — branding, typography, illustration, print. Since 2003. That's the reference. AI is the tool that scales that reference, not one that replaces it.\n\nAn old illustration used as exact input for an AI output looks different from a prompt built from nothing. More precise. More personal. Less accidental. That difference is the entire point.`;
+const manifestBodyNl = lp.manifestBodyNl ?? `De meeste AI-output is generiek omdat er niets onder ligt. Geen referentie, geen hand, geen twintig jaar waarin je leerde waarom iets werkt.\n\nIk werk andersom. Eerst het vakmanschap — branding, typografie, illustratie, print. Sinds 2003. Dat is de referentie. AI is het gereedschap dat die referentie schaalt, niet vervangt.\n\nEen oude illustratie die als exacte input dient voor een AI-output ziet er anders uit dan een prompt vanuit het niets. Preciezer. Persoonlijker. Minder toevallig. Dat verschil is het hele punt.`;
+
+const beliefs: Belief[] = lp.beliefs ?? [
+  { textEn: 'Craft first, AI second.', textNl: 'Vakmanschap eerst, AI daarna.', highlightEn: 'Craft first,', highlightNl: 'Vakmanschap eerst,' },
+  { textEn: 'The process is just as much the work.', textNl: 'Het proces is net zo goed het werk.', highlightEn: 'the work.', highlightNl: 'het werk.' },
+  { textEn: 'Not the fastest — the sharpest.', textNl: 'Niet het snelste, wel het scherpste.', highlightEn: 'the sharpest.', highlightNl: 'wel het scherpste.' },
+];
+
+const aboutBodyEn = lp.aboutBodyEn ?? `Creative director and founder of Studio Sedaiia, based in Almere, the Netherlands.\n\nTwenty years in the field: corporate identity, branding, print and DTP, illustration, web. Twelve years running my own tattoo practice in surrealism and conceptual work. Self-taught in development and AI tooling — I build what I design.\n\nThe through-line is systems thinking: I'll build the process underneath just as readily as the work on top.`;
+const aboutBodyNl = lp.aboutBodyNl ?? `Creative director en oprichter van Studio Sedaiia, gevestigd in Almere.\n\nTwintig jaar in het vak: corporate identity, branding, print en DTP, illustratie, web. Twaalf jaar een eigen tattoopraktijk in surrealisme en conceptueel werk. Autodidact in development en AI-tooling — ik bouw zelf wat ik bedenk.\n\nDe rode draad is systeemdenken: ik bouw net zo makkelijk het proces eronder als het werk erbovenop.`;
+
+const timeline: TimelineRow[] = lp.timeline ?? [
+  { year: '2003', descEn: 'started in graphic design', descNl: 'start in grafische vormgeving' },
+  { year: '~12 yr', descEn: 'own tattoo practice — surrealism / conceptual', descNl: 'eigen tattoopraktijk — surrealisme / conceptueel' },
+  { year: 'now', descEn: 'Studio Sedaiia — AI-first creative work', descNl: 'Studio Sedaiia — AI-first creatief werk' },
+];
+
+const skills: SkillGroup[] = lp.skills ?? [
+  { label: 'DESIGN', items: 'Photoshop, Illustrator, InDesign, Cinema4D basics, Figma, Framer' },
+  { label: 'AI', items: 'Higgsfield, image / motion pipelines, AI content engine' },
+  { label: 'BUILD', items: 'Squarespace, Next.js, Supabase, Vercel, VS Code' },
+];
+
+const contactEmail = lp.contactEmail ?? 'hello@sedaiia.com';
+const manifestImageUrl = lp.manifestImage?.asset?.url;
+
+// Helper: inject highlight span
+function withHighlight(text: string, highlight?: string): string {
+  if (!highlight) return text;
+  return text.replace(highlight, `<span class="hi">${highlight}</span>`);
+}
+
+// Helper: text with \n\n => <p> tags
+function toParagraphs(text: string): string {
+  return text.split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('');
+}
+
+// Helper: headline with \n => <br>
+function toHeadlineHtml(text: string): string {
+  return text.split('\n').join('<br/>');
+}
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -164,6 +268,13 @@
       font-family: Helvetica, Arial, sans-serif;
     }
     .manifest-body p + p { margin-top: 24px; }
+
+    .manifest-img {
+      margin-top: 72px;
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
 
     .image-slot {
       margin-top: 72px;
@@ -427,12 +538,12 @@
     <!-- 1. Hero -->
     <div class="hero">
       <h1 class="hero-headline">
-        <span data-lang="en">The hand behind<br/>the machine.</span>
-        <span data-lang="nl">De hand achter<br/>de machine.</span>
+        <span data-lang="en" set:html={toHeadlineHtml(heroHeadlineEn)} />
+        <span data-lang="nl" set:html={toHeadlineHtml(heroHeadlineNl)} />
       </h1>
       <p class="hero-sub">
-        <span data-lang="en">Twenty years of traditional craft as the foundation for AI that doesn't feel generic.</span>
-        <span data-lang="nl">Twintig jaar traditioneel vakmanschap als fundament voor AI die niet generiek aanvoelt.</span>
+        <span data-lang="en">{heroSubEn}</span>
+        <span data-lang="nl">{heroSubNl}</span>
       </p>
     </div>
 
@@ -443,23 +554,18 @@
         <span data-lang="nl">WAAROM DIT ANDERS WERKT</span>
       </span>
       <div data-lang="en">
-        <div class="manifest-body">
-          <p>Most AI output is generic because there's nothing underneath it. No reference, no hand, no twenty years of learning <em>why</em> something works.</p>
-          <p>I work the other way around. Craft first — branding, typography, illustration, print. Since 2003. That's the reference. AI is the tool that scales that reference, not one that replaces it.</p>
-          <p>An old illustration used as exact input for an AI output looks different from a prompt built from nothing. More precise. More personal. Less accidental. That difference is the entire point.</p>
-        </div>
+        <div class="manifest-body" set:html={toParagraphs(manifestBodyEn)} />
       </div>
       <div data-lang="nl">
-        <div class="manifest-body">
-          <p>De meeste AI-output is generiek omdat er niets onder ligt. Geen referentie, geen hand, geen twintig jaar waarin je leerde <em>waaróm</em> iets werkt.</p>
-          <p>Ik werk andersom. Eerst het vakmanschap — branding, typografie, illustratie, print. Sinds 2003. Dat is de referentie. AI is het gereedschap dat die referentie schaalt, niet vervangt.</p>
-          <p>Een oude illustratie die als exacte input dient voor een AI-output ziet er anders uit dan een prompt vanuit het niets. Preciezer. Persoonlijker. Minder toevallig. Dat verschil is het hele punt.</p>
+        <div class="manifest-body" set:html={toParagraphs(manifestBodyNl)} />
+      </div>
+      {manifestImageUrl ? (
+        <img src={manifestImageUrl} alt="" class="manifest-img" />
+      ) : (
+        <div class="image-slot">
+          <span>IMAGE SLOT — BEFORE / AFTER</span>
         </div>
-      </div>
-      <!-- Image slot — fill later -->
-      <div class="image-slot">
-        <span>IMAGE SLOT — BEFORE / AFTER</span>
-      </div>
+      )}
     </div>
 
     <!-- 3. Beliefs -->
@@ -469,18 +575,12 @@
         <span data-lang="nl">WAT IK GELOOF</span>
       </span>
       <ul class="beliefs-list">
-        <li>
-          <span data-lang="en"><span class="hi">Craft first,</span> AI second.</span>
-          <span data-lang="nl"><span class="hi">Vakmanschap eerst,</span> AI daarna.</span>
-        </li>
-        <li>
-          <span data-lang="en">The process is just as much <span class="hi">the work.</span></span>
-          <span data-lang="nl">Het proces is net zo goed <span class="hi">het werk.</span></span>
-        </li>
-        <li>
-          <span data-lang="en">Not the fastest — <span class="hi">the sharpest.</span></span>
-          <span data-lang="nl">Niet het snelste, <span class="hi">wel het scherpste.</span></span>
-        </li>
+        {beliefs.map((b) => (
+          <li>
+            <span data-lang="en" set:html={withHighlight(b.textEn, b.highlightEn)} />
+            <span data-lang="nl" set:html={withHighlight(b.textNl, b.highlightNl)} />
+          </li>
+        ))}
       </ul>
     </div>
 
@@ -490,56 +590,30 @@
       <div class="about-grid">
         <div>
           <div data-lang="en">
-            <div class="about-body">
-              <p>Creative director and founder of Studio Sedaiia, based in Almere, the Netherlands.</p>
-              <p>Twenty years in the field: corporate identity, branding, print and DTP, illustration, web. Twelve years running my own tattoo practice in surrealism and conceptual work. Self-taught in development and AI tooling — I build what I design.</p>
-              <p>The through-line is systems thinking: I'll build the process underneath just as readily as the work on top.</p>
-            </div>
+            <div class="about-body" set:html={toParagraphs(aboutBodyEn)} />
           </div>
           <div data-lang="nl">
-            <div class="about-body">
-              <p>Creative director en oprichter van Studio Sedaiia, gevestigd in Almere.</p>
-              <p>Twintig jaar in het vak: corporate identity, branding, print en DTP, illustratie, web. Twaalf jaar een eigen tattoopraktijk in surrealisme en conceptueel werk. Autodidact in development en AI-tooling — ik bouw zelf wat ik bedenk.</p>
-              <p>De rode draad is systeemdenken: ik bouw net zo makkelijk het proces eronder als het werk erbovenop.</p>
-            </div>
+            <div class="about-body" set:html={toParagraphs(aboutBodyNl)} />
           </div>
           <div class="timeline">
-            <div class="timeline-row">
-              <span class="t-year">2003</span>
-              <span class="t-desc">
-                <span data-lang="en">started in graphic design</span>
-                <span data-lang="nl">start in grafische vormgeving</span>
-              </span>
-            </div>
-            <div class="timeline-row">
-              <span class="t-year">~12 yr</span>
-              <span class="t-desc">
-                <span data-lang="en">own tattoo practice — surrealism / conceptual</span>
-                <span data-lang="nl">eigen tattoopraktijk — surrealisme / conceptueel</span>
-              </span>
-            </div>
-            <div class="timeline-row">
-              <span class="t-year">now</span>
-              <span class="t-desc">
-                <span data-lang="en">Studio Sedaiia — AI-first creative work</span>
-                <span data-lang="nl">Studio Sedaiia — AI-first creatief werk</span>
-              </span>
-            </div>
+            {timeline.map((row) => (
+              <div class="timeline-row">
+                <span class="t-year">{row.year}</span>
+                <span class="t-desc">
+                  <span data-lang="en">{row.descEn}</span>
+                  <span data-lang="nl">{row.descNl}</span>
+                </span>
+              </div>
+            ))}
           </div>
         </div>
         <div class="skills">
-          <div class="skill-group">
-            <span class="skill-label">DESIGN</span>
-            <span class="skill-items">Photoshop, Illustrator, InDesign, Cinema4D basics, Figma, Framer</span>
-          </div>
-          <div class="skill-group">
-            <span class="skill-label">AI</span>
-            <span class="skill-items">Higgsfield, image / motion pipelines, AI content engine</span>
-          </div>
-          <div class="skill-group">
-            <span class="skill-label">BUILD</span>
-            <span class="skill-items">Squarespace, Next.js, Supabase, Vercel, VS Code</span>
-          </div>
+          {skills.map((sg) => (
+            <div class="skill-group">
+              <span class="skill-label">{sg.label}</span>
+              <span class="skill-items">{sg.items}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -594,7 +668,7 @@
         <div class="contact-fields">
           <div class="contact-field">
             <span class="contact-key">EMAIL</span>
-            <a href="mailto:hello@sedaiia.com" class="contact-val">hello@sedaiia.com</a>
+            <a href={`mailto:${contactEmail}`} class="contact-val">{contactEmail}</a>
           </div>
           <div class="contact-field">
             <span class="contact-key">
