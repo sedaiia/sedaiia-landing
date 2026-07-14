@@ -1,0 +1,650 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio Sedaiia — the hand behind the machine</title>
+  <meta name="description" content="Traditional craft is exactly what keeps AI work from being generic. Creative director and founder of Studio Sedaiia." />
+  <meta name="robots" content="index, follow" />
+  <link rel="alternate" hreflang="en" href="https://sedaiia.com/" />
+  <link rel="alternate" hreflang="nl" href="https://sedaiia.com/" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta property="og:title" content="Studio Sedaiia — the hand behind the machine" />
+  <meta property="og:description" content="Traditional craft is exactly what keeps AI work from being generic." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sedaiia.com/" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --lime: #CAFF00;
+      --dot: 1px;
+      --gap: 5px;
+      --repeat: calc(var(--dot) + var(--gap));
+      --dot-line: repeating-linear-gradient(90deg, #000 0, #000 var(--dot), transparent var(--dot), transparent var(--repeat));
+      --dot-col:  repeating-linear-gradient(180deg, #000 0, #000 var(--dot), transparent var(--dot), transparent var(--repeat));
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #fff;
+      color: #000;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ── Language visibility ── */
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"],
+    body.lang-nl [data-lang="nl"] { display: block; }
+    body.lang-en span[data-lang="en"],
+    body.lang-nl span[data-lang="nl"] { display: inline; }
+
+    /* ── Header ── */
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      z-index: 50;
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.95);
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 1px;
+      background-image: var(--dot-line);
+      background-size: var(--repeat) 1px;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #000;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      transition: opacity 0.2s;
+    }
+    .logo-link:hover { opacity: 0.45; }
+    .lp { fill: #000; }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      padding: 4px 8px;
+      color: #000;
+      opacity: 0.3;
+      transition: opacity 0.2s;
+    }
+    .lang-btn.active { opacity: 1; }
+    .lang-btn:hover { opacity: 0.6; }
+    .lang-sep { font-size: 11px; color: rgba(0,0,0,0.2); }
+
+    /* ── Main ── */
+    main {
+      padding-top: 88px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    main.visible { opacity: 1; }
+
+    /* ── Shared ── */
+    .section-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 120px 48px;
+      background-image: var(--dot-line);
+      background-size: var(--repeat) 1px;
+      background-position: 0 100%;
+      background-repeat: repeat-x;
+    }
+
+    .section-label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: rgba(0,0,0,0.3);
+      margin-bottom: 48px;
+    }
+
+    /* ── 1. Hero ── */
+    .hero {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 140px 48px 120px;
+      background-image: var(--dot-line);
+      background-size: var(--repeat) 1px;
+      background-position: 0 100%;
+      background-repeat: repeat-x;
+    }
+
+    .hero-headline {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+      max-width: 860px;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 1.8vw, 20px);
+      color: rgba(0,0,0,0.45);
+      max-width: 520px;
+      line-height: 1.65;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    /* ── 2. Manifest ── */
+    .manifest-body {
+      max-width: 680px;
+      font-size: 18px;
+      line-height: 1.85;
+      color: rgba(0,0,0,0.7);
+      font-family: Helvetica, Arial, sans-serif;
+    }
+    .manifest-body p + p { margin-top: 24px; }
+
+    .image-slot {
+      margin-top: 72px;
+      width: 100%;
+      aspect-ratio: 16/7;
+      background: rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed rgba(0,0,0,0.12);
+    }
+    .image-slot span {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: rgba(0,0,0,0.2);
+    }
+
+    /* ── 3. Beliefs ── */
+    .beliefs-list {
+      list-style: none;
+      max-width: 860px;
+    }
+
+    .beliefs-list li {
+      font-size: clamp(24px, 3.5vw, 44px);
+      font-weight: 400;
+      padding: 36px 0;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      background-image: var(--dot-line);
+      background-size: var(--repeat) 1px;
+      background-position: 0 100%;
+      background-repeat: repeat-x;
+    }
+
+    .beliefs-list li:first-child {
+      background-image: var(--dot-line), var(--dot-line);
+      background-size: var(--repeat) 1px;
+      background-position: 0 0, 0 100%;
+      background-repeat: repeat-x;
+    }
+
+    .hi { background: #000; color: var(--lime); padding: 2px 8px; }
+
+    /* ── 4. About ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-body {
+      font-size: 15px;
+      line-height: 1.85;
+      color: rgba(0,0,0,0.6);
+      font-family: Helvetica, Arial, sans-serif;
+    }
+    .about-body p + p { margin-top: 16px; }
+
+    .timeline {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 16px;
+      font-size: 13px;
+    }
+    .t-year {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(0,0,0,0.3);
+      padding-top: 2px;
+    }
+    .t-desc { color: rgba(0,0,0,0.6); font-family: Helvetica, Arial, sans-serif; }
+
+    .skills { display: flex; flex-direction: column; gap: 28px; }
+    .skill-group { display: flex; flex-direction: column; gap: 8px; }
+    .skill-label {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: rgba(0,0,0,0.3);
+    }
+    .skill-items {
+      font-size: 13px;
+      color: rgba(0,0,0,0.65);
+      font-family: Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ── 5. Two doors ── */
+    .doors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 1280px;
+      margin: 0 auto;
+      background-image: var(--dot-line);
+      background-size: var(--repeat) 1px;
+      background-position: 0 100%;
+      background-repeat: repeat-x;
+    }
+
+    .door {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 72px 48px;
+      text-decoration: none;
+      color: #000;
+      min-height: 300px;
+      transition: background 0.2s;
+    }
+
+    .door:first-child {
+      background-image: var(--dot-col);
+      background-size: 1px var(--repeat);
+      background-position: 100% 0;
+      background-repeat: repeat-y;
+    }
+
+    .door:hover { background-color: rgba(0,0,0,0.02); }
+
+    .door-index {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: rgba(0,0,0,0.25);
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .door-name {
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .door-desc {
+      font-size: 14px;
+      color: rgba(0,0,0,0.45);
+      font-family: Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      max-width: 340px;
+    }
+
+    .door-arrow {
+      margin-top: 48px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .door:hover .door-arrow { background: #000; border-color: #000; }
+    .door:hover .door-arrow path { stroke: #fff; }
+
+    /* ── 6. Contact ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-headline {
+      font-size: clamp(26px, 3vw, 40px);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .contact-sub {
+      margin-top: 16px;
+      font-size: 13px;
+      color: rgba(0,0,0,0.35);
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .contact-fields { display: flex; flex-direction: column; gap: 24px; }
+    .contact-field { display: flex; flex-direction: column; gap: 6px; }
+    .contact-key {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: rgba(0,0,0,0.3);
+    }
+    .contact-val {
+      font-size: 15px;
+      font-family: Helvetica, Arial, sans-serif;
+      color: #000;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    a.contact-val:hover { opacity: 0.45; }
+
+    /* ── Footer ── */
+    footer {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(0,0,0,0.07);
+    }
+
+    footer p, footer a {
+      font-size: 11px;
+      color: rgba(0,0,0,0.25);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    footer a:hover { color: rgba(0,0,0,0.6); }
+    .footer-links { display: flex; gap: 24px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 767px) {
+      header { padding: 20px 24px; }
+      .hero { padding: 110px 24px 80px; }
+      .section-wrap { padding: 80px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .doors { grid-template-columns: 1fr; }
+      .door:first-child {
+        background-image: var(--dot-line);
+        background-size: var(--repeat) 1px;
+        background-position: 0 100%;
+        background-repeat: repeat-x;
+      }
+      .door { padding: 48px 24px; min-height: auto; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+</head>
+<body class="lang-en">
+
+  <header>
+    <a href="/" class="logo-link">
+      <svg width="22" height="20" viewBox="0 0 1579 1464" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="lp" d="M845.534 1.61656C722.602 298.182 451.535 572.409 0.514358 572.336V673.003C125.651 673.003 243.586 694.9 364.534 731.053C265.042 771.834 142.698 791.747 0.587839 791.747L0 892.635C311.041 894.987 536.11 1037.68 729.509 1251.51L729.436 1097.2C607.459 969.863 488.422 899.763 340.947 848.621C403.552 831.941 451.314 813.277 507.232 787.559C595.482 835.615 654.854 878.307 728.995 935.988L728.848 801.299C679.91 766.911 664.48 754.64 624.947 730.612C717.753 671.534 766.249 632.075 845.167 563.445L845.24 417.219C727.599 549.116 639.717 613.705 508.776 677.045C441.762 648.241 399.217 632.369 341.021 617.305C545.442 540.592 699.089 415.015 844.947 213.974L844.726 207.14L844.653 0L845.167 1.61656H845.534Z"/>
+        <path class="lp" d="M845.534 209.344C1012.77 419.35 1222.63 568.073 1578.64 573.364V672.341C1425.36 673.958 1318.45 698.353 1210.22 734.138C1309.49 773.376 1413.83 793.216 1577.54 792.995L1577.1 892.267C1245.56 898.954 950.831 1086.03 729.876 1463.21V1245.41C852.809 1056.05 1005.06 937.751 1235.49 848.252C1167.16 827.237 1127.48 812.982 1072.22 786.75C938.78 859.642 847.444 928.933 730.905 1054.51L730.832 903.142C806.296 828.78 866.843 779.622 954.358 730.243C901.379 696.149 875.44 680.057 845.828 662.348L845.975 532.95C923.937 594.452 978.827 635.087 1069.43 678.587C1135.19 645.448 1171.34 634.499 1235.71 615.762C1063.77 547.719 971.773 481.22 845.24 370.412L845.754 209.344H845.534Z"/>
+      </svg>
+      SEDAIIA
+    </a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang-set="en">EN</button>
+      <span class="lang-sep">/</span>
+      <button class="lang-btn" data-lang-set="nl">NL</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 1. Hero -->
+    <div class="hero">
+      <h1 class="hero-headline">
+        <span data-lang="en">The hand behind<br/>the machine.</span>
+        <span data-lang="nl">De hand achter<br/>de machine.</span>
+      </h1>
+      <p class="hero-sub">
+        <span data-lang="en">Twenty years of traditional craft as the foundation for AI that doesn't feel generic.</span>
+        <span data-lang="nl">Twintig jaar traditioneel vakmanschap als fundament voor AI die niet generiek aanvoelt.</span>
+      </p>
+    </div>
+
+    <!-- 2. Manifest -->
+    <div class="section-wrap">
+      <span class="section-label">
+        <span data-lang="en">WHY THIS WORKS DIFFERENTLY</span>
+        <span data-lang="nl">WAAROM DIT ANDERS WERKT</span>
+      </span>
+      <div data-lang="en">
+        <div class="manifest-body">
+          <p>Most AI output is generic because there's nothing underneath it. No reference, no hand, no twenty years of learning <em>why</em> something works.</p>
+          <p>I work the other way around. Craft first — branding, typography, illustration, print. Since 2003. That's the reference. AI is the tool that scales that reference, not one that replaces it.</p>
+          <p>An old illustration used as exact input for an AI output looks different from a prompt built from nothing. More precise. More personal. Less accidental. That difference is the entire point.</p>
+        </div>
+      </div>
+      <div data-lang="nl">
+        <div class="manifest-body">
+          <p>De meeste AI-output is generiek omdat er niets onder ligt. Geen referentie, geen hand, geen twintig jaar waarin je leerde <em>waaróm</em> iets werkt.</p>
+          <p>Ik werk andersom. Eerst het vakmanschap — branding, typografie, illustratie, print. Sinds 2003. Dat is de referentie. AI is het gereedschap dat die referentie schaalt, niet vervangt.</p>
+          <p>Een oude illustratie die als exacte input dient voor een AI-output ziet er anders uit dan een prompt vanuit het niets. Preciezer. Persoonlijker. Minder toevallig. Dat verschil is het hele punt.</p>
+        </div>
+      </div>
+      <!-- Image slot — fill later -->
+      <div class="image-slot">
+        <span>IMAGE SLOT — BEFORE / AFTER</span>
+      </div>
+    </div>
+
+    <!-- 3. Beliefs -->
+    <div class="section-wrap">
+      <span class="section-label">
+        <span data-lang="en">WHAT I BELIEVE</span>
+        <span data-lang="nl">WAT IK GELOOF</span>
+      </span>
+      <ul class="beliefs-list">
+        <li>
+          <span data-lang="en"><span class="hi">Craft first,</span> AI second.</span>
+          <span data-lang="nl"><span class="hi">Vakmanschap eerst,</span> AI daarna.</span>
+        </li>
+        <li>
+          <span data-lang="en">The process is just as much <span class="hi">the work.</span></span>
+          <span data-lang="nl">Het proces is net zo goed <span class="hi">het werk.</span></span>
+        </li>
+        <li>
+          <span data-lang="en">Not the fastest — <span class="hi">the sharpest.</span></span>
+          <span data-lang="nl">Niet het snelste, <span class="hi">wel het scherpste.</span></span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 4. About -->
+    <div class="section-wrap">
+      <span class="section-label">JOHN PATRICK KOOSMAN</span>
+      <div class="about-grid">
+        <div>
+          <div data-lang="en">
+            <div class="about-body">
+              <p>Creative director and founder of Studio Sedaiia, based in Almere, the Netherlands.</p>
+              <p>Twenty years in the field: corporate identity, branding, print and DTP, illustration, web. Twelve years running my own tattoo practice in surrealism and conceptual work. Self-taught in development and AI tooling — I build what I design.</p>
+              <p>The through-line is systems thinking: I'll build the process underneath just as readily as the work on top.</p>
+            </div>
+          </div>
+          <div data-lang="nl">
+            <div class="about-body">
+              <p>Creative director en oprichter van Studio Sedaiia, gevestigd in Almere.</p>
+              <p>Twintig jaar in het vak: corporate identity, branding, print en DTP, illustratie, web. Twaalf jaar een eigen tattoopraktijk in surrealisme en conceptueel werk. Autodidact in development en AI-tooling — ik bouw zelf wat ik bedenk.</p>
+              <p>De rode draad is systeemdenken: ik bouw net zo makkelijk het proces eronder als het werk erbovenop.</p>
+            </div>
+          </div>
+          <div class="timeline">
+            <div class="timeline-row">
+              <span class="t-year">2003</span>
+              <span class="t-desc">
+                <span data-lang="en">started in graphic design</span>
+                <span data-lang="nl">start in grafische vormgeving</span>
+              </span>
+            </div>
+            <div class="timeline-row">
+              <span class="t-year">~12 yr</span>
+              <span class="t-desc">
+                <span data-lang="en">own tattoo practice — surrealism / conceptual</span>
+                <span data-lang="nl">eigen tattoopraktijk — surrealisme / conceptueel</span>
+              </span>
+            </div>
+            <div class="timeline-row">
+              <span class="t-year">now</span>
+              <span class="t-desc">
+                <span data-lang="en">Studio Sedaiia — AI-first creative work</span>
+                <span data-lang="nl">Studio Sedaiia — AI-first creatief werk</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="skills">
+          <div class="skill-group">
+            <span class="skill-label">DESIGN</span>
+            <span class="skill-items">Photoshop, Illustrator, InDesign, Cinema4D basics, Figma, Framer</span>
+          </div>
+          <div class="skill-group">
+            <span class="skill-label">AI</span>
+            <span class="skill-items">Higgsfield, image / motion pipelines, AI content engine</span>
+          </div>
+          <div class="skill-group">
+            <span class="skill-label">BUILD</span>
+            <span class="skill-items">Squarespace, Next.js, Supabase, Vercel, VS Code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Two doors -->
+    <div class="doors">
+      <a href="https://studio.sedaiia.com" class="door">
+        <div>
+          <span class="door-index">01</span>
+          <div class="door-name">studio →</div>
+          <p class="door-desc">
+            <span data-lang="en">Traditional graphic and illustrative work, since 2003. The reference.</span>
+            <span data-lang="nl">Traditioneel grafisch en illustratief werk, sinds 2003. De referentie.</span>
+          </p>
+        </div>
+        <div class="door-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+      <a href="https://lab.sedaiia.com" class="door">
+        <div>
+          <span class="door-index">02</span>
+          <div class="door-name">lab →</div>
+          <p class="door-desc">
+            <span data-lang="en">Experimental AI work, stills and motion. Where the reference scales.</span>
+            <span data-lang="nl">Experimenteel AI-werk, stills en motion. Waar de referentie naartoe schaalt.</span>
+          </p>
+        </div>
+        <div class="door-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <!-- 6. Contact -->
+    <div class="section-wrap">
+      <div class="contact-grid">
+        <div>
+          <h2 class="contact-headline">
+            <span data-lang="en">Available for freelance work and part-time roles.</span>
+            <span data-lang="nl">Beschikbaar voor freelance opdrachten en part-time rollen.</span>
+          </h2>
+          <p class="contact-sub">
+            <span data-lang="en">Creative, web design, AI and process.</span>
+            <span data-lang="nl">Creatief, webdesign, AI en proces.</span>
+          </p>
+        </div>
+        <div class="contact-fields">
+          <div class="contact-field">
+            <span class="contact-key">EMAIL</span>
+            <a href="mailto:hello@sedaiia.com" class="contact-val">hello@sedaiia.com</a>
+          </div>
+          <div class="contact-field">
+            <span class="contact-key">
+              <span data-lang="en">LOCATION</span>
+              <span data-lang="nl">LOCATIE</span>
+            </span>
+            <span class="contact-val">
+              <span data-lang="en">Almere, Netherlands</span>
+              <span data-lang="nl">Almere, Nederland</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Sedaiia — KVK 62290924</p>
+    <div class="footer-links">
+      <a href="https://studio.sedaiia.com">studio</a>
+      <a href="https://lab.sedaiia.com">lab</a>
+    </div>
+  </footer>
+
+  <script>
+    const STORAGE_KEY = 'sedaiia-lang';
+
+    function setLang(lang: string) {
+      document.body.className = `lang-${lang}`;
+      document.documentElement.lang = lang;
+      localStorage.setItem(STORAGE_KEY, lang);
+      document.querySelectorAll<HTMLElement>('[data-lang-set]').forEach(btn => {
+        btn.classList.toggle('active', (btn as HTMLElement & { dataset: { langSet?: string } }).dataset.langSet === lang);
+      });
+    }
+
+    const stored = localStorage.getItem(STORAGE_KEY);
+    const preferNL = navigator.language?.startsWith('nl');
+    setLang(stored ?? (preferNL ? 'nl' : 'en'));
+
+    document.querySelectorAll<HTMLElement>('[data-lang-set]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = (btn as HTMLElement & { dataset: { langSet?: string } }).dataset.langSet;
+        if (target) setLang(target);
+      });
+    });
+
+    document.querySelector('main')?.classList.add('visible');
+  </script>
+
+</body>
+</html>
