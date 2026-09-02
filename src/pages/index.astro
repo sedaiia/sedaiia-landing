@@ -123,6 +123,12 @@ function toHeadlineHtml(text: string): string {
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Lenis smooth scroll */
+    html.lenis, html.lenis body { height: auto; }
+    .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-smooth iframe { pointer-events: none; }
+
     :root {
       --lime: #CAFF00;
       --dot: 1px;
@@ -695,6 +701,8 @@ function toHeadlineHtml(text: string): string {
   </footer>
 
   <script>
+    import Lenis from 'lenis';
+
     const STORAGE_KEY = 'sedaiia-lang';
 
     function setLang(lang: string) {
@@ -718,6 +726,16 @@ function toHeadlineHtml(text: string): string {
     });
 
     document.querySelector('main')?.classList.add('visible');
+
+    // Smooth scroll — skipped when the visitor prefers reduced motion
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const lenis = new Lenis({ duration: 1.1 });
+      const raf = (time: number) => {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      };
+      requestAnimationFrame(raf);
+    }
   </script>
 
 </body>
