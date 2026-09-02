@@ -378,8 +378,6 @@ function toHeadlineHtml(text: string): string {
 
     /* ── 5. Two doors ── */
     .doors {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
       max-width: 1280px;
       margin: 0 auto;
       background-image: var(--dot-line);
@@ -397,13 +395,6 @@ function toHeadlineHtml(text: string): string {
       color: #000;
       min-height: 300px;
       transition: background 0.2s;
-    }
-
-    .door:first-child {
-      background-image: var(--dot-col);
-      background-size: 1px var(--repeat);
-      background-position: 100% 0;
-      background-repeat: repeat-y;
     }
 
     .door:hover { background-color: rgba(0,0,0,0.02); }
@@ -509,13 +500,6 @@ function toHeadlineHtml(text: string): string {
       .hero { padding: 110px 24px 80px; }
       .section-wrap { padding: 80px 24px; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
-      .doors { grid-template-columns: 1fr; }
-      .door:first-child {
-        background-image: var(--dot-line);
-        background-size: var(--repeat) 1px;
-        background-position: 0 100%;
-        background-repeat: repeat-x;
-      }
       .door { padding: 48px 24px; min-height: auto; }
       .contact-grid { grid-template-columns: 1fr; gap: 40px; }
       footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -624,26 +608,11 @@ function toHeadlineHtml(text: string): string {
       </div>
     </div>
 
-    <!-- 5. Two doors -->
+    <!-- 5. Lab door -->
     <div class="doors">
-      <a href="https://studio.sedaiia.com" class="door">
-        <div>
-          <span class="door-index">01</span>
-          <div class="door-name">studio →</div>
-          <p class="door-desc">
-            <span data-lang="en">Traditional graphic and illustrative work, since 2003. The reference.</span>
-            <span data-lang="nl">Traditioneel grafisch en illustratief werk, sinds 2003. De referentie.</span>
-          </p>
-        </div>
-        <div class="door-arrow">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </a>
       <a href="https://lab.sedaiia.com" class="door">
         <div>
-          <span class="door-index">02</span>
+          <span class="door-index">01</span>
           <div class="door-name">lab →</div>
           <p class="door-desc">
             <span data-lang="en">Experimental AI work, stills and motion. Where the reference scales.</span>
