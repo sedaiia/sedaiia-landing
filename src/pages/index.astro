@@ -401,7 +401,7 @@ function toHeadlineHtml(text: string): string {
       line-height: 1.6;
     }
 
-    /* ── 5. Two doors ── */
+    /* ── 5. Work door ── */
     .doors {
       max-width: 1280px;
       margin: 0 auto;
@@ -417,17 +417,18 @@ function toHeadlineHtml(text: string): string {
       justify-content: space-between;
       padding: 72px 48px;
       text-decoration: none;
-      color: #000;
+      color: #fff;
+      background: #000;
       min-height: 300px;
       transition: background 0.2s;
     }
 
-    .door:hover { background-color: rgba(0,0,0,0.02); }
+    .door:hover { background-color: #0a0a0a; }
 
     .door-index {
       font-size: 10px;
       letter-spacing: 0.35em;
-      color: rgba(0,0,0,0.25);
+      color: rgba(255,255,255,0.35);
       margin-bottom: 24px;
       display: block;
     }
@@ -441,7 +442,7 @@ function toHeadlineHtml(text: string): string {
 
     .door-desc {
       font-size: 14px;
-      color: rgba(0,0,0,0.45);
+      color: rgba(255,255,255,0.5);
       font-family: Helvetica, Arial, sans-serif;
       line-height: 1.65;
       max-width: 340px;
@@ -451,15 +452,17 @@ function toHeadlineHtml(text: string): string {
       margin-top: 48px;
       width: 40px;
       height: 40px;
-      border: 1px solid rgba(0,0,0,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background 0.2s, border-color 0.2s;
     }
 
-    .door:hover .door-arrow { background: #000; border-color: #000; }
-    .door:hover .door-arrow path { stroke: #fff; }
+    .door-arrow path { stroke: #fff; }
+
+    .door:hover .door-arrow { background: #fff; border-color: #fff; }
+    .door:hover .door-arrow path { stroke: #000; }
 
     /* ── 6. Contact ── */
     .contact-grid {
@@ -638,20 +641,20 @@ function toHeadlineHtml(text: string): string {
       </div>
     </div>
 
-    <!-- 5. Lab door -->
+    <!-- 5. Work door -->
     <div class="doors">
       <a href="https://lab.sedaiia.com" class="door">
         <div>
           <span class="door-index">01</span>
-          <div class="door-name">lab →</div>
+          <div class="door-name">My work →</div>
           <p class="door-desc">
-            <span data-lang="en">Experimental AI work, stills and motion. Where the reference scales.</span>
-            <span data-lang="nl">Experimenteel AI-werk, stills en motion. Waar de referentie naartoe schaalt.</span>
+            <span data-lang="en">Traditional, hybrid and native AI</span>
+            <span data-lang="nl">Traditioneel, hybride en native AI</span>
           </p>
         </div>
         <div class="door-arrow">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </a>
